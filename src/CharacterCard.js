@@ -3,7 +3,7 @@ export default class CharactorCard extends React.Component{
     render(){
         return(
             <div>
-                {this.props.value}
+               {this.props.value}
             </div>
         )
     }
