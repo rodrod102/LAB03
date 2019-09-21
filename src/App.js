@@ -26,6 +26,7 @@ class App extends React.Component {
         this.setState({ guess: [], completed: true })
         this.setState({ guess: [], completed: this.state.completed + 1 }) //เมื่อตอบถูกให้หลัง completed +1
       } else {
+        this.setState({ guess: [], completed: false }) //เมื่อ ตอบผิดจะไม่แสดง completed
         this.setState({ guess: [], attempt: this.state.attempt + 1 })
       }
     }
