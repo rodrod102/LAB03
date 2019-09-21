@@ -11,33 +11,25 @@ const prepareStateFromWord = (given_word) => {
   return {
     word,
     chars,
-    attempt: 1,
+    attempt: 0,
     guess: [],
     completed: false
   }
 }
-
 class App extends React.Component {
-
   state = prepareStateFromWord(message);
-
-  componentDidUpdate(prevProps){
-    if(prevProps.attempt != this.props.attempt){
-    this.setState({active: false})
-    }
-   }
-
   activationHandler = (c) => {
     let guess = [...this.state.guess, c]
     this.setState({ guess })
     if (guess.length == this.state.chars.length) {
       if (guess.join('').toString() == this.state.word) {
         this.setState({ guess: [], completed: true })
+        this.setState({ guess: [], completed: this.state.completed + 1 }) //เมื่อตอบถูกให้หลัง completed +1
       } else {
         this.setState({ guess: [], attempt: this.state.attempt + 1 })
       }
     }
-    
+
   }
   render() {
     return (
@@ -48,7 +40,6 @@ class App extends React.Component {
               value={item}
               key={index}
               activationHandler={this.activationHandler}
-              componentDidUpdate={this.componentDidUpdate}
             />
           ))
         }
@@ -59,13 +50,12 @@ class App extends React.Component {
               value={item}
               key={index}
               activationHandler={this.activationHandler}
-              componentDidUpdate={this.componentDidUpdate}
             />
           ))
         }
         <div>Attemp {this.state.attempt}</div>
         {
-          this.state.completed && <h4>Complete</h4>
+          this.state.completed && <h4>Complete{this.state.completed} </h4>
         }
       </div>
     )
