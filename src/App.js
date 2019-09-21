@@ -2,9 +2,9 @@ import React from 'react';
 import CharacterCard from './CharacterCard';
 import './App.css';
 import _ from 'lodash';
- 
+
 let message = 'Hello'
- 
+
 const prepareStateFromWord = (given_word) => {
   let word = given_word.toUpperCase()
   let chars = _.shuffle(Array.from(word))
@@ -16,11 +16,17 @@ const prepareStateFromWord = (given_word) => {
     completed: false
   }
 }
- 
+
 class App extends React.Component {
- 
+
   state = prepareStateFromWord(message);
- 
+
+  componentDidUpdate(prevProps){
+    if(prevProps.attempt != this.props.attempt){
+    this.setState({active: false})
+    }
+   }
+
   activationHandler = (c) => {
     let guess = [...this.state.guess, c]
     this.setState({ guess })
@@ -31,6 +37,7 @@ class App extends React.Component {
         this.setState({ guess: [], attempt: this.state.attempt + 1 })
       }
     }
+    
   }
   render() {
     return (
@@ -41,6 +48,7 @@ class App extends React.Component {
               value={item}
               key={index}
               activationHandler={this.activationHandler}
+              componentDidUpdate={this.componentDidUpdate}
             />
           ))
         }
@@ -51,6 +59,7 @@ class App extends React.Component {
               value={item}
               key={index}
               activationHandler={this.activationHandler}
+              componentDidUpdate={this.componentDidUpdate}
             />
           ))
         }
@@ -62,5 +71,5 @@ class App extends React.Component {
     )
   }
 }
- 
+
 export default App;
